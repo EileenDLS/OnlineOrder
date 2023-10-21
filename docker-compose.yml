@@ -1,0 +1,20 @@
+version: '3.8'
+
+
+services: # 定义docker要配置哪些micro-service，这样docker可以帮忙全部下载配置好
+
+
+  db:
+    image: postgres:15.2-alpine    #使用postgreSQL,版本为15.2
+    environment:
+      POSTGRES_DB: onlineorder
+      POSTGRES_PASSWORD: secret
+      TZ: UTC
+    volumes:    # 数据存储在本地的地方（本地开发时的配置）
+      - onlineorder-pg-local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # 该service的默认端口是5432，postgre的端口 ：本地的端口
+
+
+volumes:
+  onlineorder-pg-local:
