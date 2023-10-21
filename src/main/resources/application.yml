@@ -1,1 +1,21 @@
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: DEBUG # Incoming HTTP requests
+    org.springframework.jdbc.datasource.init: DEBUG  # the db init execute log
+
+spring:
+  jackson:
+    default-property-inclusion: non_null  # 省去val是null的，只显示非null的
+    property-naming-strategy: SNAKE_CASE  # snake case: 用小写下划线连接，如last_name
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/onlineorder  # 连接本地数据库
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver  # 驱动 drive database
+  sql:
+    init:
+      mode: ${INIT_DB:always}
+      schema-locations: "classpath:database-init.sql"
+
+
 
