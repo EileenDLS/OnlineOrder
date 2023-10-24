@@ -19,8 +19,8 @@ dependencies {
     implementation 'com.github.javafaker:javafaker:1.0.2'  // get dynamic data
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'  // database lib
-    runtimeOnly 'org.postgresql:postgresql:42.6.0'   // drive database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'  // database lib (springboot-jdbc)
+    runtimeOnly 'org.postgresql:postgresql:42.6.0'   // drive database (使用postgresql)
 }
 
 tasks.named('test') {
