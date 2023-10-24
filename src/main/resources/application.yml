@@ -2,6 +2,7 @@ logging:
   level:
     org.apache.coyote.http11.Http11InputBuffer: DEBUG # Incoming HTTP requests
     org.springframework.jdbc.datasource.init: DEBUG  # the db init execute log
+    org.springframework.jdbc.core: DEBUG # 打印出jdbc里的所有操作，包括SQL语句的执行
 
 spring:
   jackson:
