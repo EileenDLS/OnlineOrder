@@ -2,7 +2,13 @@ package com.fullstack.onlineorder;
 
 import com.fullstack.onlineorder.entity.*;
 import com.fullstack.onlineorder.model.OrderItemDto;
+import com.fullstack.onlineorder.model.RestaurantDto;
 import com.fullstack.onlineorder.repository.*;
+import com.fullstack.onlineorder.service.CartService;
+import com.fullstack.onlineorder.service.MenuItemService;
+import com.fullstack.onlineorder.service.RestaurantService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -12,11 +18,20 @@ import java.util.List;
 // implements ApplicationRunner意味着当run这个application的时候，系统就开始create DevRunner
 @Component  //如果没有component的annotation，DevRunner就不能在run app的时候run了
 public class DevRunner implements ApplicationRunner {
+    // A logger for print
+    private static final Logger logger = LoggerFactory.getLogger(DevRunner.class);
+
+    // test repository
     private final CartRepository cartRepository;
     private final CustomerRepository customerRepository;
     private final MenuItemRepository menuItemRepository;
     private final OrderItemRepository orderItemRepository;
     private final RestaurantRepository restaurantRepository;
+
+    // test service
+    private final CartService cartService;
+    private final MenuItemService menuItemService;
+    private final RestaurantService restaurantService;
 
 
     public DevRunner(
@@ -24,13 +39,20 @@ public class DevRunner implements ApplicationRunner {
             CustomerRepository customerRepository,
             MenuItemRepository menuItemRepository,
             OrderItemRepository orderItemRepository,
-            RestaurantRepository restaurantRepository) {
+            RestaurantRepository restaurantRepository,
+            CartService cartService,
+            MenuItemService menuItemService,
+            RestaurantService restaurantService) {
         this.cartRepository = cartRepository;
         this.customerRepository = customerRepository;
         this.menuItemRepository = menuItemRepository;
         this.orderItemRepository = orderItemRepository;
         this.restaurantRepository = restaurantRepository;
+        this.cartService = cartService;
+        this.menuItemService = menuItemService;
+        this.restaurantService = restaurantService;
     }
+
 
 
     @Override
@@ -94,5 +116,29 @@ public class DevRunner implements ApplicationRunner {
         restaurantRepository.deleteById(4L);
         // update customer1 info
         customerRepository.updateNameById(1L, "first", "last");
+
+        // The following is new code for service
+        List<RestaurantDto> restaurantDtos = restaurantService.getRestaurants();
+        logger.info(restaurantDtos.toString());
+        // get restaurant_id为2的menu item
+        List<MenuItemEntity> menuItemEntities = menuItemService.getMenuItemsByRestaurantId(2L);
+        logger.info(menuItemEntities.toString());
+        // get restaurant_id为1的menu item
+        logger.info(menuItemService.getMenuItemById(1L).toString());
+
+        // 向购物车里面加菜
+        cartService.addMenuItemToCart(1L, 1L);
+        cartService.addMenuItemToCart(1L, 3L);
+        cartService.addMenuItemToCart(1L, 3L);
+        cartService.addMenuItemToCart(1L, 3L);
+        cartService.addMenuItemToCart(1L, 5L);
+        cartService.addMenuItemToCart(1L, 5L);
+        // 打印customer_id为1的购物车的情况
+        logger.info(cartService.getCart(1L).toString());
+
+        // 清空购物车
+        cartService.clearCart(1L);
+        // 打印购物车情况
+        logger.info(cartService.getCart(1L).toString());
     }
 }
