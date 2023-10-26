@@ -1,6 +1,7 @@
 package com.fullstack.onlineorder;
 
 import com.fullstack.onlineorder.entity.*;
+import com.fullstack.onlineorder.model.OrderItemDto;
 import com.fullstack.onlineorder.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
