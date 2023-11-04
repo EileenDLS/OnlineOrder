@@ -29,6 +29,7 @@ public class RestaurantService {
     }
 
 
+    // 对menu进行按restaurant分类，并且整合成Dto返回
     public List<RestaurantDto> getRestaurants() {
         // get all restaurant and menu data
         List<RestaurantEntity> restaurantEntities = restaurantRepository.findAll();
@@ -37,7 +38,7 @@ public class RestaurantService {
         // key: Long type -- restaurant id; value: menu item
         Map<Long, List<MenuItemDto>> groupedMenuItems = new HashMap<>();
         for (MenuItemEntity menuItemEntity : menuItemEntities) {
-            // .computeIfAbsent(): 如果map里面没有这个restaurant id， 则创建新的，并初始化val一个arraylist，如果存在，return对应的val
+            // .computeIfAbsent(): 如果map里面没有这个restaurant id， 则创建新的，并初始化val（是一个arraylist），如果存在，return对应的val
             List<MenuItemDto> group = groupedMenuItems.computeIfAbsent(menuItemEntity.restaurantId(), k -> new ArrayList<>());
             MenuItemDto menuItemDto = new MenuItemDto(menuItemEntity);
             group.add(menuItemDto);  // menu放到对应的restaurant里

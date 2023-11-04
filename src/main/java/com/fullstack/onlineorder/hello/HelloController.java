@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Locale;
 
+// 申明是个controller, 这样spring boot可以自己识别
 @RestController
 public class HelloController {
     @GetMapping("/hello")
